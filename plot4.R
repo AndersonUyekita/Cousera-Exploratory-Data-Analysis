@@ -1,88 +1,137 @@
-#######################################################################################
-#                                                                                     #
-# Author: Anderson Hitoshi Uyekita                                                    #
-# Exploratory Data Analysis                                                           #
-# Course Project 01 - Week 1 - Coursera                                               #
-# File: plot4.R                                                                       #
-#                                                                                     #
-#######################################################################################
+################################################################################
+#                                                                              #
+#   Specialization: Data Science - Foundations using R Specialization          #
+#           Course: Exploratory Data Analysis                                  #
+#                                                                              #
+#           Author: Anderson Hitoshi Uyekita                                   #
+#             Date: 2022/05/25                                                 #
+#                                                                              #
+#   Course Project: Electric Power Consumption (Week 1)                        #
+#      Deliverable: plot4.R                                                    #
+#                                                                              #
+################################################################################
 
-############################### 1. Work Directory #####################################
-# Saving the original work directory
-root_original <- getwd()
+# 1. Libraries used to perform this script. ####
+library(lubridate)
+library(tidyverse)
+library(magrittr)
 
-# All manipulation data will start in the root.
-setwd("~")
+# 2. Creating a folder to store the downloaded files. ####
+if(!file.exists("data")) {
+    # If this folder already have been created, it will be ignored.
+    dir.create("data")
+}
 
-################################ 2. Work Directory ####################################
-# Create a project directory
-if(!file.exists("Dataset_Power_Consumption"))
-        {
-        dir.create("Dataset_Power_Consumption")
-        }
+# 3. Downloading the zip file with Electric power consumption from UC Irvine Machine Learning Repository. ####
+if(!file.exists("./data/power_consumption.zip")) {
+    
+    # Download and store it in data folder.
+    download.file(url = "https://d396qusza40orc.cloudfront.net/exdata%2Fdata%2Fhousehold_power_consumption.zip",
+                  destfile = "./data/power_consumption.zip")
+}
 
-# Set as Work Directory
-setwd("Dataset_Power_Consumption")
+# 3.1. Unzipping the power_consumption file
+if(!file.exists("./data/household_power_consumption.txt")) {
+    
+    # Check if the power_consumption.zip has been unzipped
+    unzip(zipfile = "./data/power_consumption.zip",
+          exdir = "./data",
+          list = FALSE,
+          overwrite = TRUE)
+}
 
-################################ 3. Download Data #####################################
-library(httr) 
-url <- "https://d396qusza40orc.cloudfront.net/exdata%2Fdata%2Fhousehold_power_consumption.zip"
-if(!file.exists("power_consumption.zip"))
-        {
-        download.file(url, "power_consumption.zip")
-        }
+# 4. Loading the data ####
+#
+# Based on the instruction, we already know the types of the columns.
+#
+raw_dataset <- read.table(file = "./data/household_power_consumption.txt",
+                          header = TRUE,
+                          sep = ';',
+                          stringsAsFactors = FALSE ,
+                          na.strings = "?",
+                          nrows = 2075259, 
+                          check.names = FALSE,
+                          colClasses = c(character(),
+                                         character(),
+                                         numeric(),
+                                         numeric(),
+                                         numeric(),
+                                         numeric(),
+                                         numeric(),
+                                         numeric(),
+                                         numeric()))
 
-# Removing the URL
-rm(url)
+# 5. Manipulating Data ####
 
-# Unzipping the power_consumption file
-if(!file.exists("household_power_consumption.txt"))
-        {
-        file_unzipped <- unzip("power_consumption.zip", list = FALSE, overwrite = TRUE)
-        }
+# 5.1. Converting the Date column into the Date class object and Filtering the observations
+df_tidy <- raw_dataset %>%
+    
+    # Merging Date and Time POSIXlt.
+    mutate(Time = strptime(paste(Date, " " ,Time), "%d/%m/%Y %H:%M:%S")) %>%
+    
+    # Converging character into Date.
+    mutate(Date = as.Date(Date, "%d/%m/%Y")) %>%
+    
+    # Filtering observations between 2007-02-01 and 2007-02-02.
+    filter(Date >= "2007-02-01" & Date <= "2007-02-02")
 
-file_unzipped <- "./household_power_consumption.txt"
+# 6. Exporting the PNG file ####
+png(filename = "./plot4.png",
+    width = 480 ,
+    height = 480,
+    units = "px",
+    bg = "white")
 
-################################ 4. Loading the data ##################################
-raw_dataset <- read.table(file_unzipped, header = T, sep=';', stringsAsFactors=FALSE , na.strings = "?", nrows=2075259, check.names=F)
-rm(file_unzipped)
-
-################################# 5. Subsetting data ##################################
-# "raw_dataset$Date %in% c("1/2/2007","2/2/2007")" used to select data between 1/2/2007 and 2/2/2007
-subset_dataset <- raw_dataset[raw_dataset$Date %in% c("1/2/2007","2/2/2007"),]
-
-############################## 6. Data Manipulation ###################################
-# Convert the Date and Time variables to Date/Time classes
-data_time <- strptime(paste(subset_dataset$Date, " " ,subset_dataset$Time), "%d/%m/%Y %H:%M:%S", tz ="GMT")
-
-# Removing raw_data
-rm(raw_dataset)
-
-################################## 7. Plotting ########################################
-png("plot4.png", width = 480, height = 480 , units = "px", bg = "white")
-# Create 4 fields to be filled with 4 plots
-par(mfrow = c(2, 2))
-
-# Top-left
-plot(data_time, subset_dataset$Global_active_power , type = "l", xlab = "", ylab = "Global Active Power")
-
-## Top-right
-plot(data_time, subset_dataset$Voltage , type = "l", xlab = "datetime", ylab = "Voltage")
-
-## Bottom-left
-plot(data_time, subset_dataset$Sub_metering_1, type="l", ylab="Energy sub metering", xlab="")
-lines(data_time, subset_dataset$Sub_metering_2, type="l", col="red")
-lines(data_time, subset_dataset$Sub_metering_3, type="l", col="blue")
-legend("topright", c("Sub_metering_1", "Sub_metering_2", "Sub_metering_3"), lty = 1, lwd = , col=c("black", "red", "blue"), bty="n")
-
-## Bottom-right
-plot(data_time, subset_dataset$Global_reactive_power , type = "l", col = "black", xlab = "datetime", ylab = "Global_reactive_power")
+    # Forcing to printing in English.
+    Sys.setlocale("LC_TIME", "English")
+    
+    # Create 4 fields to be filled with 4 plots
+    par(mfrow = c(2, 2))
+    
+    # Top-left
+    plot(x = df_tidy$Time,
+         y = df_tidy$Global_active_power ,
+         type = "l",
+         xlab = "",
+         ylab = "Global Active Power")
+    
+    ## Top-right
+    plot(x = df_tidy$Time,
+         y = df_tidy$Voltage ,
+         type = "l",
+         xlab = "datetime",
+         ylab = "Voltage")
+    
+    ## Bottom-left
+    plot(x = df_tidy$Time,
+         y = df_tidy$Sub_metering_1,
+         type = "l",
+         ylab = "Energy sub metering",
+         xlab = "")
+    
+    lines(x = df_tidy$Time, 
+          y = df_tidy$Sub_metering_2, 
+          type = "l", 
+          col = "red")
+    
+    lines(x = df_tidy$Time, 
+          y = df_tidy$Sub_metering_3, 
+          type = "l",
+          col = "blue")
+    
+    legend(x = "topright",
+           legend = c("Sub_metering_1", "Sub_metering_2", "Sub_metering_3"),
+           lty = 1,
+           lwd = 2.5,
+           col=c("black", "red", "blue"),
+           bty="n")
+    
+    ## Bottom-right
+    plot(x = df_tidy$Time,
+         y = df_tidy$Global_reactive_power,
+         type = "l",
+         col = "black",
+         xlab = "datetime",
+         ylab = "Global_reactive_power")
 
 dev.off()
-
-################## 8. Recovering Original Configuration ###############################
-unlink("household_power_consumption.txt")
-rm(subset_dataset)
-rm(data_time)
-setwd(root_original)
-rm(root_original)
