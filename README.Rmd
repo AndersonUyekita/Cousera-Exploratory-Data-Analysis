@@ -1,26 +1,33 @@
 ---
 title: '`Course Project 1` Exploratory Data Analysis'
-author: "Anderson H. Uyekita"
+author: '`r if(knitr::is_html_output()) {"&#x1f468;&#x1F3FB;&#x200d;&#x1f4bb; Anderson H Uyekita"} else {NULL}`'
 output:
+  github_document: default
   html_document:
     toc: true
     toc_depth: 4
     toc_float:
       collapsed: false
       smooth_scroll: true
-  github_document: default
 always_allow_html: true
 editor_options: 
   chunk_output_type: inline
 ---
 
-* Specialization: [Data Science: Foundations using R Specialization](https://www.coursera.org/specializations/data-science-foundations-r)
-* Course: [Exploratory Data Analysis](https://www.coursera.org/learn/exploratory-data-analysis)
-    * Instructor: Roger D Peng
-* Week 1:
-    * Start: 2022/05/24
-    * Finish: 2022/05/25
-* [Project Instructions](./instructions.md)
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE,cache=TRUE,message=FALSE,warning=FALSE)
+library(rmarkdown)
+```
+
+`r if(!knitr::is_html_output()) {"* &#x1f468;&#x1F3FB;&#x200d;&#x1f4bb; Author: Anderson H Uyekita"}`
+* &#x1f4da; Specialization: [Data Science: Foundations using R Specialization](https://www.coursera.org/specializations/data-science-foundations-r){target='_blank' rel='noopener'}
+* &#x1f4d6; Course: [Exploratory Data Analysis](https://www.coursera.org/learn/exploratory-data-analysis){target='_blank' rel='noopener'}
+    * &#x1F9D1;&#x200d;&#x1F3EB; Instructor: Roger D Peng
+* &#x1F4C6; Week 1
+    * &#x1F6A6; Start: 2022/05/24
+    * &#x1F3C1; Finish: 2022/05/25
+* [&#x1F4CB; Project Instructions](https://github.com/AndersonUyekita/exploratory-data-analysis_course-project-1/blob/master/instructions.md){target='_blank' rel='noopener'}
+* `r if(!knitr::is_html_output()) {"&#x1F30E; Rpubs: [Interactive Document](https://rpubs.com/AndersonUyekita/course-project-1_exploratory-data-analysis)"}else{"&#x1F4E6; Github Repository: [Static Document](https://github.com/AndersonUyekita/exploratory-data-analysis_course-project-1){target='_blank' rel='noopener'}"}`
 
 ***
 
