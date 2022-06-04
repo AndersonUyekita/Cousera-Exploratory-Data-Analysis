@@ -1,14 +1,26 @@
-# `Course Project 1` Exploratory Data Analysis
+`Course Project 1` Exploratory Data Analysis
+================
 
-* Specialization: [Data Science: Foundations using R Specialization](https://www.coursera.org/specializations/data-science-foundations-r)
-* Course: [Exploratory Data Analysis](https://www.coursera.org/learn/exploratory-data-analysis)
-    * Instructor: Roger D Peng
-* Week 1:
-    * Start: 2022/05/24
-    * Finish: 2022/05/24
-* [Project README](./README.md)
+-   👨🏻‍💻 Author: Anderson H Uyekita
+-   📚 Specialization: <a
+    href="https://www.coursera.org/specializations/data-science-foundations-r"
+    target="_blank" rel="noopener">Data Science: Foundations using R
+    Specialization</a>
+-   📖 Course:
+    <a href="https://www.coursera.org/learn/exploratory-data-analysis"
+    target="_blank" rel="noopener">Exploratory Data Analysis</a>
+    -   🧑‍🏫 Instructor: Roger D Peng
+-   📆 Week 1
+    -   🚦 Start: 2022/05/24
+    -   🏁 Finish: 2022/05/25
+-   <a
+    href="https://github.com/AndersonUyekita/exploratory-data-analysis_course-project-1/blob/master/instructions.md"
+    target="_blank" rel="noopener">📋 Project Instructions</a>
+-   🌎 Rpubs: [Interactive
+    Document](https://rpubs.com/AndersonUyekita/course-project-1_exploratory-data-analysis)
+-   [📄 README](./README.md)
 
-***
+------------------------------------------------------------------------
 
 ## Instructions
 
